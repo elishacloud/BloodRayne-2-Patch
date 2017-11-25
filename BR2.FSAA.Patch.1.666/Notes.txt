@@ -1,0 +1,3 @@
+This folder contains the original BloodRayne 2 Patch.  The Windows 8.1/10 fixed patch is in the 'bin' or 'Release' folder.
+
+See: https://github.com/elishacloud/BloodRayne-2-Patch/releases
