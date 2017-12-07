@@ -39,6 +39,7 @@ This software is provided 'as-is', without any express or implied warranty. In n
 This project uses code from several other projects. Below is a list of locations that source code was taken from:
 
 * [d3d8to9](https://github.com/crosire/d3d8to9): Includes the full Direct3D 8 to Direct3D 9 code.
-* [DxWrapper](https://github.com/elishacloud/dxwrapper): Includes code to hook APIs.
+* [DxWnd](https://sourceforge.net/projects/dxwnd/): Includes code from DxWnd for API hooking.
+* [rohitab.com](http://www.rohitab.com/discuss/topic/40594-parsing-pe-export-table/): Code in GetProcAddress function taken from source code found on rohitab.com
 
 Thanks for stopping by!
