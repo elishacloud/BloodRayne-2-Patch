@@ -149,6 +149,24 @@ HRESULT STDMETHODCALLTYPE Direct3DDevice8::CreateAdditionalSwapChain(D3DPRESENT_
 	D3DPRESENT_PARAMETERS PresentParams;
 	ConvertPresentParameters(*pPresentationParameters, PresentParams);
 
+	// Get multisample quality level
+	if (PresentParams.MultiSampleType != D3DMULTISAMPLE_NONE)
+	{
+		DWORD QualityLevels = 0;
+		D3DDEVICE_CREATION_PARAMETERS CreationParams;
+		ProxyInterface->GetCreationParameters(&CreationParams);
+
+		if (D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal,
+			CreationParams.DeviceType, PresentParams.BackBufferFormat, PresentParams.Windowed,
+			PresentParams.MultiSampleType, &QualityLevels) == S_OK &&
+			D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal,
+				CreationParams.DeviceType, PresentParams.AutoDepthStencilFormat, PresentParams.Windowed,
+				PresentParams.MultiSampleType, &QualityLevels) == S_OK)
+		{
+			PresentParams.MultiSampleQuality = (QualityLevels != 0) ? QualityLevels - 1 : 0;
+		}
+	}
+
 	IDirect3DSwapChain9 *SwapChainInterface = nullptr;
 
 	const HRESULT hr = ProxyInterface->CreateAdditionalSwapChain(&PresentParams, &SwapChainInterface);
@@ -175,6 +193,24 @@ HRESULT STDMETHODCALLTYPE Direct3DDevice8::Reset(D3DPRESENT_PARAMETERS8 *pPresen
 
 	D3DPRESENT_PARAMETERS PresentParams;
 	ConvertPresentParameters(*pPresentationParameters, PresentParams);
+
+	// Get multisample quality level
+	if (PresentParams.MultiSampleType != D3DMULTISAMPLE_NONE)
+	{
+		DWORD QualityLevels = 0;
+		D3DDEVICE_CREATION_PARAMETERS CreationParams;
+		ProxyInterface->GetCreationParameters(&CreationParams);
+
+		if (D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal,
+			CreationParams.DeviceType, PresentParams.BackBufferFormat, PresentParams.Windowed,
+			PresentParams.MultiSampleType, &QualityLevels) == S_OK &&
+			D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal,
+				CreationParams.DeviceType, PresentParams.AutoDepthStencilFormat, PresentParams.Windowed,
+				PresentParams.MultiSampleType, &QualityLevels) == S_OK)
+		{
+			PresentParams.MultiSampleQuality = (QualityLevels != 0) ? QualityLevels - 1 : 0;
+		}
+	}
 
 	return ProxyInterface->Reset(&PresentParams);
 }
@@ -353,20 +389,21 @@ HRESULT STDMETHODCALLTYPE Direct3DDevice8::CreateRenderTarget(UINT Width, UINT H
 
 	*ppSurface = nullptr;
 
-	DWORD QualityLevels = 1;
-	D3DDEVICE_CREATION_PARAMETERS CreationParams;
-	ProxyInterface->GetCreationParameters(&CreationParams);
+	DWORD QualityLevels = 0;
 
-	HRESULT hr = D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal, CreationParams.DeviceType, Format, FALSE, MultiSample, &QualityLevels);
-
-	if (FAILED(hr))
+	// Get multisample quality level
+	if (MultiSample != D3DMULTISAMPLE_NONE)
 	{
-		return D3DERR_INVALIDCALL;
+		D3DDEVICE_CREATION_PARAMETERS CreationParams;
+		ProxyInterface->GetCreationParameters(&CreationParams);
+
+		D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal, CreationParams.DeviceType, Format, FALSE, MultiSample, &QualityLevels);
+		QualityLevels = (QualityLevels != 0) ? QualityLevels - 1 : 0;
 	}
 
 	IDirect3DSurface9 *SurfaceInterface = nullptr;
 
-	hr = ProxyInterface->CreateRenderTarget(Width, Height, Format, MultiSample, QualityLevels - 1, Lockable, &SurfaceInterface, nullptr);
+	HRESULT hr = ProxyInterface->CreateRenderTarget(Width, Height, Format, MultiSample, QualityLevels, Lockable, &SurfaceInterface, nullptr);
 
 	if (FAILED(hr))
 	{
@@ -386,20 +423,21 @@ HRESULT STDMETHODCALLTYPE Direct3DDevice8::CreateDepthStencilSurface(UINT Width,
 
 	*ppSurface = nullptr;
 
-	DWORD QualityLevels = 1;
-	D3DDEVICE_CREATION_PARAMETERS CreationParams;
-	ProxyInterface->GetCreationParameters(&CreationParams);
+	DWORD QualityLevels = 0;
 
-	HRESULT hr = D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal, CreationParams.DeviceType, Format, FALSE, MultiSample, &QualityLevels);
-
-	if (FAILED(hr))
+	// Get multisample quality level
+	if (MultiSample != D3DMULTISAMPLE_NONE)
 	{
-		return D3DERR_INVALIDCALL;
+		D3DDEVICE_CREATION_PARAMETERS CreationParams;
+		ProxyInterface->GetCreationParameters(&CreationParams);
+
+		D3D->GetProxyInterface()->CheckDeviceMultiSampleType(CreationParams.AdapterOrdinal, CreationParams.DeviceType, Format, FALSE, MultiSample, &QualityLevels);
+		QualityLevels = (QualityLevels != 0) ? QualityLevels - 1 : 0;
 	}
 
 	IDirect3DSurface9 *SurfaceInterface = nullptr;
 
-	hr = ProxyInterface->CreateDepthStencilSurface(Width, Height, Format, MultiSample, QualityLevels - 1, ZBufferDiscarding, &SurfaceInterface, nullptr);
+	HRESULT hr = ProxyInterface->CreateDepthStencilSurface(Width, Height, Format, MultiSample, QualityLevels, ZBufferDiscarding, &SurfaceInterface, nullptr);
 
 	if (FAILED(hr))
 	{
@@ -1743,9 +1781,21 @@ HRESULT STDMETHODCALLTYPE Direct3DDevice8::CreatePixelShader(const DWORD *pFunct
 		}
 
 		// Replace one constant modifier using the dest register as a temporary register
+		size_t SourceSize = SourceCode.size();
 		SourceCode = std::regex_replace(SourceCode,
 			std::regex("    (...)(_[_satxd248]*|) (r[0-9][\\.wxyz]*), (1?-?[crtv][0-9][\\.wxyz_abdis2]*, )?(1?-?[crtv][0-9][\\.wxyz_abdis2]*, )?(1?-?[crtv][0-9][\\.wxyz_abdis2]*, )?((1?-)(c[0-9])([\\.wxyz]*)(_bx2|_bias|_x2|_d[zbwa]|)|(1?-?)(c[0-9])([\\.wxyz]*)(_bx2|_bias|_x2|_d[zbwa]))(?![_\\.wxyz])"),
 			"    mov $3, $9$10$13$14 /* added line */\n    $1$2 $3, $4$5$8$12$3$11$15 /* changed $9$10$13$14 to $3 */", std::regex_constants::format_first_only);
+		// Replace one constant modifier on coissued commands using the dest register as a temporary register
+		if (SourceSize == SourceCode.size())
+		{
+			SourceCode = std::regex_replace(SourceCode,
+				std::regex("(    .*\\n)  \\+ (...)(_[_satxd248]*|) (r[0-9][\\.wxyz]*), (1?-?[crtv][0-9][\\.wxyz_abdis2]*, )?(1?-?[crtv][0-9][\\.wxyz_abdis2]*, )?(1?-?[crtv][0-9][\\.wxyz_abdis2]*, )?((1?-)(c[0-9])([\\.wxyz]*)(_bx2|_bias|_x2|_d[zbwa]|)|(1?-?)(c[0-9])([\\.wxyz]*)(_bx2|_bias|_x2|_d[zbwa]))(?![_\\.wxyz])"),
+				"    mov $4, $10$11$14$15 /* added line */\n$1  + $2$3 $4, $5$6$9$13$4$12$16 /* changed $10$11$14$15 to $4 */", std::regex_constants::format_first_only);
+		}
+		if (SourceSize == SourceCode.size())
+		{
+			break;
+		}
 		ArithmeticCount++;
 	}
 
