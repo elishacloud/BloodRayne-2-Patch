@@ -4,3 +4,6 @@
 [submodule "External/Hooking"]
 	path = External/Hooking
 	url = https://github.com/elishacloud/Hooking
+[submodule "External/d3d8to9"]
+	path = External/d3d8to9
+	url = https://github.com/crosire/d3d8to9

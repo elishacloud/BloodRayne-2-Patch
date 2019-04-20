@@ -2,39 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Dllmain.cpp" />
-    <ClCompile Include="d3d8to9\source\d3d8to9.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_base.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_device.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_index_buffer.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_surface.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_swap_chain.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_texture.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_vertex_buffer.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8to9_volume.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\d3d8types.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
-    <ClCompile Include="d3d8to9\source\lookup_table.cpp">
-      <Filter>d3d8to9</Filter>
-    </ClCompile>
     <ClCompile Include="External\Logging\Logging.cpp">
       <Filter>External\Logging</Filter>
     </ClCompile>
@@ -47,24 +14,42 @@
     <ClCompile Include="External\Hooking\IATPatch.cpp">
       <Filter>External\Hooking</Filter>
     </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_base.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_device.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_index_buffer.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_surface.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_swap_chain.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_texture.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_vertex_buffer.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8to9_volume.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\d3d8types.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="External\d3d8to9\source\lookup_table.cpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8to9\d3d8to9.cpp">
+      <Filter>d3d8to9</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dllmain.h" />
-    <ClInclude Include="d3d8to9\source\d3d8to9.hpp">
-      <Filter>d3d8to9</Filter>
-    </ClInclude>
-    <ClInclude Include="d3d8to9\source\d3d8types.hpp">
-      <Filter>d3d8to9</Filter>
-    </ClInclude>
-    <ClInclude Include="d3d8to9\source\d3dx9.hpp">
-      <Filter>d3d8to9</Filter>
-    </ClInclude>
-    <ClInclude Include="d3d8to9\source\lookup_table.hpp">
-      <Filter>d3d8to9</Filter>
-    </ClInclude>
-    <ClInclude Include="d3d8to9\res\resource.h">
-      <Filter>d3d8to9</Filter>
-    </ClInclude>
     <ClInclude Include="External\Logging\Logging.h">
       <Filter>External\Logging</Filter>
     </ClInclude>
@@ -73,6 +58,21 @@
     </ClInclude>
     <ClInclude Include="Logging\Logging.h">
       <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="External\d3d8to9\source\d3d8to9.hpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClInclude>
+    <ClInclude Include="External\d3d8to9\source\d3d8types.hpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClInclude>
+    <ClInclude Include="External\d3d8to9\source\d3dx9.hpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClInclude>
+    <ClInclude Include="External\d3d8to9\source\lookup_table.hpp">
+      <Filter>External\d3d8to9</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8to9\d3d8to9.h">
+      <Filter>d3d8to9</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -91,14 +91,14 @@
     <Filter Include="Logging">
       <UniqueIdentifier>{a30e7fcd-e63c-4e86-9c8c-fcc799be392e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External\d3d8to9">
+      <UniqueIdentifier>{eb5b072d-b2b2-4351-90d6-416c0d9179fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d8.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="d3d8to9\res\d3d8to9.rc">
-      <Filter>d3d8to9</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="BuildNo.rc" />
     <ResourceCompile Include="Dllmain.rc" />
   </ItemGroup>
