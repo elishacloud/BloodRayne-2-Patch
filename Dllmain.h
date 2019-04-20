@@ -1,7 +1,6 @@
 #pragma once
 
 #include <windows.h>
-#include "External\Logging\Logging.h"
 #include "BuildNo.rc"
 
 // Included resource files

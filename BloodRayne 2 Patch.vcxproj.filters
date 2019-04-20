@@ -35,17 +35,17 @@
     <ClCompile Include="d3d8to9\source\lookup_table.cpp">
       <Filter>d3d8to9</Filter>
     </ClCompile>
-    <ClCompile Include="Hooking\Hook.cpp">
-      <Filter>Hooking</Filter>
-    </ClCompile>
-    <ClCompile Include="Hooking\HotPatch.cpp">
-      <Filter>Hooking</Filter>
-    </ClCompile>
-    <ClCompile Include="Hooking\IATPatch.cpp">
-      <Filter>Hooking</Filter>
-    </ClCompile>
     <ClCompile Include="External\Logging\Logging.cpp">
       <Filter>External\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Hooking\Hook.cpp">
+      <Filter>External\Hooking</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Hooking\HotPatch.cpp">
+      <Filter>External\Hooking</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Hooking\IATPatch.cpp">
+      <Filter>External\Hooking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,25 +65,31 @@
     <ClInclude Include="d3d8to9\res\resource.h">
       <Filter>d3d8to9</Filter>
     </ClInclude>
-    <ClInclude Include="Hooking\Hook.h">
-      <Filter>Hooking</Filter>
-    </ClInclude>
     <ClInclude Include="External\Logging\Logging.h">
       <Filter>External\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Hooking\Hook.h">
+      <Filter>External\Hooking</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\Logging.h">
+      <Filter>Logging</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="d3d8to9">
       <UniqueIdentifier>{4e6aef91-bffe-4243-9b65-7f2df559fded}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Hooking">
-      <UniqueIdentifier>{915410bc-1b44-4571-8886-070ed926ee8e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{781b76c7-965e-402c-9619-37d3cfcb9d03}</UniqueIdentifier>
     </Filter>
     <Filter Include="External\Logging">
       <UniqueIdentifier>{8f07bea9-cf9e-4665-90bf-772e54c78be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Hooking">
+      <UniqueIdentifier>{88ac4597-a9fe-4164-9423-ebacea8f00d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{a30e7fcd-e63c-4e86-9c8c-fcc799be392e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

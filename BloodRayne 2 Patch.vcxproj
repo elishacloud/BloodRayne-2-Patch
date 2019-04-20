@@ -36,7 +36,7 @@
     <TargetName>d3d8</TargetName>
     <OutDir>bin\$(Configuration)\</OutDir>
     <IntDir>intermediate\$(Configuration)\</IntDir>
-    <IncludePath>$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath>$(ProjectDir);$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
     <LibraryPath>$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -105,10 +105,10 @@ cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; type BuildNo.rc"
     <ClCompile Include="d3d8to9\source\d3d8to9_volume.cpp" />
     <ClCompile Include="d3d8to9\source\d3d8types.cpp" />
     <ClCompile Include="Dllmain.cpp" />
+    <ClCompile Include="External\Hooking\Hook.cpp" />
+    <ClCompile Include="External\Hooking\HotPatch.cpp" />
+    <ClCompile Include="External\Hooking\IATPatch.cpp" />
     <ClCompile Include="External\Logging\Logging.cpp" />
-    <ClCompile Include="Hooking\Hook.cpp" />
-    <ClCompile Include="Hooking\HotPatch.cpp" />
-    <ClCompile Include="Hooking\IATPatch.cpp" />
     <ClCompile Include="d3d8to9\source\lookup_table.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +117,10 @@ cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; type BuildNo.rc"
     <ClInclude Include="d3d8to9\source\d3d8types.hpp" />
     <ClInclude Include="d3d8to9\source\d3dx9.hpp" />
     <ClInclude Include="Dllmain.h" />
+    <ClInclude Include="External\Hooking\Hook.h" />
     <ClInclude Include="External\Logging\Logging.h" />
-    <ClInclude Include="Hooking\Hook.h" />
     <ClInclude Include="d3d8to9\source\lookup_table.hpp" />
+    <ClInclude Include="Logging\Logging.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d8.def" />

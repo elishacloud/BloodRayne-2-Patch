@@ -15,7 +15,8 @@
 */
 
 #include "Dllmain.h"
-#include "Hooking\Hook.h"
+#include "Logging\Logging.h"
+#include "External\Hooking\Hook.h"
 
 std::ofstream LOG;
 
