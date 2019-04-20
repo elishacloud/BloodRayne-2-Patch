@@ -14,29 +14,10 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <windows.h>
 #include "Dllmain.h"
 #include "Hooking\Hook.h"
 
-namespace Logging
-{
-	std::ofstream LOG;
-}
-
-void Logging::LogFormat(char * fmt, ...)
-{
-	// Format arg list
-	va_list ap;
-	va_start(ap, fmt);
-	auto size = vsnprintf(nullptr, 0, fmt, ap);
-	std::string output(size + 1, '\0');
-	vsprintf_s(&output[0], size + 1, fmt, ap);
-	va_end(ap);
-
-	// Log formated text
-	Log() << output.c_str();
-	return;
-}
+std::ofstream LOG;
 
 FARPROC Direct3DCreate8_dll = nullptr;
 FARPROC FakeDirect3DCreate8_dll = nullptr;
@@ -58,22 +39,31 @@ bool APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 	{
+		// Get log file path and open log file
+		wchar_t pathname[MAX_PATH];
+		GetModuleFileName(hModule, pathname, MAX_PATH);
+		wcscpy_s(wcsrchr(pathname, '.'), MAX_PATH - wcslen(pathname), L".log");
+		Logging::Open(pathname);
+
+		// Starting
+		Logging::Log() << "Starting BloodRayne 2 Patch! v" << APP_VERSION;
+
 		// Init vars
-		char path[MAX_PATH];
+		wchar_t path[MAX_PATH];
 
 		// Get d3d8.dll from System32 folder
-		GetSystemDirectoryA(path, MAX_PATH);
-		strcat_s(path, "\\d3d8.dll");
-		System32_dll = LoadLibraryA(path);
+		GetSystemDirectory(path, MAX_PATH);
+		wcscat_s(path, MAX_PATH, L"\\d3d8.dll");
+		System32_dll = LoadLibrary(path);
 
 		// System32 -> DxWrapper
 		Logging::Log() << "Hooking System32 d3d8.dll APIs...";
 		Hook::HotPatch(Hook::GetProcAddress(System32_dll, "Direct3DCreate8"), "Direct3DCreate8", Hook::GetProcAddress(hModule, "RealDirect3DCreate8"), true);
 
 		// Load d3d8patch.dll from exe folder
-		GetModuleFileNameA(nullptr, path, sizeof(path));
-		strcpy_s(strrchr(path, '\\'), MAX_PATH - strlen(path), "\\d3d8patch.dll");
-		patch_dll = LoadLibraryA(path);
+		GetModuleFileName(nullptr, path, sizeof(path));
+		wcscpy_s(wcsrchr(path, '\\'), MAX_PATH - wcslen(path), L"\\d3d8patch.dll");
+		patch_dll = LoadLibrary(path);
 
 		// FakeDirect3DCreate9 -> Patch
 		FakeDirect3DCreate8_dll = Hook::GetProcAddress(patch_dll, "Direct3DCreate8");

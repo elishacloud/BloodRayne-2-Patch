@@ -13,17 +13,20 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{66E64E5F-6016-4E0B-B4E5-B1255F044BA2}</ProjectGuid>
     <ProjectName>BloodRayne 2 Patch</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="PropertySheets">
@@ -61,8 +64,10 @@ copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &g
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>D3D8TO9NOLOG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>d3d8.def</ModuleDefinitionFile>
@@ -80,6 +85,13 @@ copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\cudart32_32_16.dll" "$(TargetDir)Pa
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\readme.html" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &gt;nul</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; if not exist BuildNo.rc echo #define BUILD_NUMBER 0 &gt;BuildNo.rc"
+cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; FOR /F "tokens=3" %%i IN (BuildNo.rc) DO set /a var=%%i+1 &gt;Build.txt"
+cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; FOR /F %%i IN (Build.txt) DO echo #define BUILD_NUMBER %%i &gt;BuildNo.rc"
+cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; del Build.txt"
+cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; type BuildNo.rc"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="d3d8to9\source\d3d8to9.cpp" />
@@ -93,6 +105,7 @@ copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &g
     <ClCompile Include="d3d8to9\source\d3d8to9_volume.cpp" />
     <ClCompile Include="d3d8to9\source\d3d8types.cpp" />
     <ClCompile Include="Dllmain.cpp" />
+    <ClCompile Include="External\Logging\Logging.cpp" />
     <ClCompile Include="Hooking\Hook.cpp" />
     <ClCompile Include="Hooking\HotPatch.cpp" />
     <ClCompile Include="Hooking\IATPatch.cpp" />
@@ -104,6 +117,7 @@ copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &g
     <ClInclude Include="d3d8to9\source\d3d8types.hpp" />
     <ClInclude Include="d3d8to9\source\d3dx9.hpp" />
     <ClInclude Include="Dllmain.h" />
+    <ClInclude Include="External\Logging\Logging.h" />
     <ClInclude Include="Hooking\Hook.h" />
     <ClInclude Include="d3d8to9\source\lookup_table.hpp" />
   </ItemGroup>
@@ -111,7 +125,9 @@ copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &g
     <None Include="d3d8.def" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="BuildNo.rc" />
     <ResourceCompile Include="d3d8to9\res\d3d8to9.rc" />
+    <ResourceCompile Include="Dllmain.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

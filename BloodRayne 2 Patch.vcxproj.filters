@@ -44,6 +44,9 @@
     <ClCompile Include="Hooking\IATPatch.cpp">
       <Filter>Hooking</Filter>
     </ClCompile>
+    <ClCompile Include="External\Logging\Logging.cpp">
+      <Filter>External\Logging</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dllmain.h" />
@@ -65,6 +68,9 @@
     <ClInclude Include="Hooking\Hook.h">
       <Filter>Hooking</Filter>
     </ClInclude>
+    <ClInclude Include="External\Logging\Logging.h">
+      <Filter>External\Logging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="d3d8to9">
@@ -72,6 +78,12 @@
     </Filter>
     <Filter Include="Hooking">
       <UniqueIdentifier>{915410bc-1b44-4571-8886-070ed926ee8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{781b76c7-965e-402c-9619-37d3cfcb9d03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Logging">
+      <UniqueIdentifier>{8f07bea9-cf9e-4665-90bf-772e54c78be9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,5 +93,7 @@
     <ResourceCompile Include="d3d8to9\res\d3d8to9.rc">
       <Filter>d3d8to9</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="BuildNo.rc" />
+    <ResourceCompile Include="Dllmain.rc" />
   </ItemGroup>
 </Project>

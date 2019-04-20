@@ -10,20 +10,10 @@ PFN_D3DXAssembleShader D3DXAssembleShader = nullptr;
 PFN_D3DXDisassembleShader D3DXDisassembleShader = nullptr;
 PFN_D3DXLoadSurfaceFromSurface D3DXLoadSurfaceFromSurface = nullptr;
 
-#ifndef D3D8TO9NOLOG
- // Very simple logging for the purpose of debugging only.
-std::ofstream LOG;
-#endif
-
 extern "C" Direct3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
 {
 #ifndef D3D8TO9NOLOG
 	static bool LogMessageFlag = true;
-
-	if (!LOG.is_open())
-	{
-		LOG.open("d3d8.log", std::ios::trunc);
-	}
 
 	if (!LOG.is_open() && LogMessageFlag)
 	{
@@ -33,6 +23,8 @@ extern "C" Direct3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
 
 	LOG << "Redirecting '" << "Direct3DCreate8" << "(" << SDKVersion << ")' ..." << std::endl;
 	LOG << "> Passing on to 'Direct3DCreate9':" << std::endl;
+#else
+	UNREFERENCED_PARAMETER(SDKVersion);
 #endif
 
 	IDirect3D9 *const d3d = Direct3DCreate9(D3D_SDK_VERSION);
