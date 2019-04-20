@@ -26,6 +26,10 @@ Delete the following files from the 'BloodRayne 2' folder:
 * d3d8patch.dll
 * readme.html
 
+### Donations
+
+All my work here is free and can be freely used.  For more details on how you can use this module see the [license](#license) section below.  However, if you would like to donate to me then check out my [donations page](https://PayPal.me/elishacloud).  All donations are for work already completed!  Please don't donate for future work or to try and increase my development speed.  Thanks!
+
 ### License
 
 Copyright (C) 2019 Elisha Riedlinger
@@ -41,5 +45,8 @@ This project uses code from several other projects. Below is a list of locations
 * [d3d8to9](https://github.com/crosire/d3d8to9): Includes the full Direct3D 8 to Direct3D 9 code.
 * [DxWnd](https://sourceforge.net/projects/dxwnd/): Includes code from DxWnd for API hooking.
 * [rohitab.com](http://www.rohitab.com/discuss/topic/40594-parsing-pe-export-table/): Code in GetProcAddress function taken from source code found on rohitab.com
+
+### Development
+This project is written in C++ using Microsoft Visual Studio Community 2017.
 
 Thanks for stopping by!
