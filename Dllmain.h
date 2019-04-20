@@ -1,6 +1,5 @@
 #pragma once
 
-#include <windows.h>
 #include "BuildNo.rc"
 
 // Included resource files

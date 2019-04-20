@@ -14,6 +14,7 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
+#include <windows.h>
 #include "Dllmain.h"
 #include "Logging\Logging.h"
 #include "External\Hooking\Hook.h"
