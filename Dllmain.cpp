@@ -16,17 +16,18 @@
 
 #include <windows.h>
 #include "Dllmain.h"
+#include "d3d8to9\d3d8to9.h"
 #include "Logging\Logging.h"
 #include "External\Hooking\Hook.h"
 
 std::ofstream LOG;
 
-FARPROC Direct3DCreate8_dll = nullptr;
-FARPROC FakeDirect3DCreate8_dll = nullptr;
+FARPROC Direct3DCreate8_dll = (FARPROC)*Direct3DCreate8to9;
 
-extern "C" __declspec(naked) void __stdcall FakeDirect3DCreate8()
+extern "C" __declspec(naked) void __stdcall Direct3DCreate8()
 {
-	__asm jmp FakeDirect3DCreate8_dll
+	__asm mov edi, edi
+	__asm jmp Direct3DCreate8_dll
 }
 
 // Dll main function
@@ -53,22 +54,30 @@ bool APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 		// Init vars
 		wchar_t path[MAX_PATH];
 
-		// Get d3d8.dll from System32 folder
+		// Load d3d8.dll from System32 folder
 		GetSystemDirectory(path, MAX_PATH);
 		wcscat_s(path, MAX_PATH, L"\\d3d8.dll");
 		System32_dll = LoadLibrary(path);
 
-		// System32 -> DxWrapper
+		// System32 -> Direct3DCreate8to9
 		Logging::Log() << "Hooking System32 d3d8.dll APIs...";
-		Hook::HotPatch(Hook::GetProcAddress(System32_dll, "Direct3DCreate8"), "Direct3DCreate8", Hook::GetProcAddress(hModule, "RealDirect3DCreate8"), true);
+		Hook::HotPatch(Hook::GetProcAddress(System32_dll, "Direct3DCreate8"), "Direct3DCreate8", Direct3DCreate8to9, true);
 
 		// Load d3d8patch.dll from exe folder
 		GetModuleFileName(nullptr, path, sizeof(path));
 		wcscpy_s(wcsrchr(path, '\\'), MAX_PATH - wcslen(path), L"\\d3d8patch.dll");
 		patch_dll = LoadLibrary(path);
 
-		// FakeDirect3DCreate9 -> Patch
-		FakeDirect3DCreate8_dll = Hook::GetProcAddress(patch_dll, "Direct3DCreate8");
+		// Direct3DCreate8 -> Patch
+		if (patch_dll)
+		{
+			Logging::Log() << "Hooking 'd3d8patch.dll' APIs...";
+			Direct3DCreate8_dll = Hook::GetProcAddress(patch_dll, "Direct3DCreate8");
+		}
+		else
+		{
+			Logging::Log() << "Could not load 'd3d8patch.dll' patch file!";
+		}
 	}
 	break;
 	case DLL_THREAD_ATTACH:

@@ -23,7 +23,7 @@ PFN_D3DXAssembleShader D3DXAssembleShader = nullptr;
 PFN_D3DXDisassembleShader D3DXDisassembleShader = nullptr;
 PFN_D3DXLoadSurfaceFromSurface D3DXLoadSurfaceFromSurface = nullptr;
 
-extern "C" Direct3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
+Direct3D8 *WINAPI Direct3DCreate8to9(UINT SDKVersion)
 {
 	UNREFERENCED_PARAMETER(SDKVersion);
 
@@ -65,12 +65,6 @@ extern "C" Direct3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
 		{
 			Logging::Log() << __FUNCTION__ << " Error: Failed to load d3dx9_xx.dll! Some features will not work correctly.";
 		}
-	}
-
-	// Check if WineD3D is loaded
-	if (GetModuleHandle(L"libwine.dll") || GetModuleHandle(L"wined3d.dll"))
-	{
-		Logging::Log() << __FUNCTION__ << " Warning: WineD3D detected!  It is not recommended to use WineD3D with Silent Hill 2 Enhancements.";
 	}
 
 	return new Direct3D8(d3d);
