@@ -50,10 +50,11 @@ bool APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 
 		// Starting
 		Logging::Log() << "Starting BloodRayne 2 Patch! v" << APP_VERSION;
-		Logging::LogProcessNameAndPID();
-		Logging::LogOSVersion();
 		Logging::LogComputerManufacturer();
 		Logging::LogVideoCard();
+		Logging::LogOSVersion();
+		Logging::LogProcessNameAndPID();
+		Logging::LogGameType();
 
 		// Init vars
 		wchar_t path[MAX_PATH];
