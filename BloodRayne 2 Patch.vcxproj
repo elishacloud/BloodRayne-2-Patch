@@ -13,7 +13,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{66E64E5F-6016-4E0B-B4E5-B1255F044BA2}</ProjectGuid>
     <ProjectName>BloodRayne 2 Patch</ProjectName>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -90,7 +89,15 @@ copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &g
 cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; FOR /F "tokens=3" %%i IN (BuildNo.rc) DO set /a var=%%i+1 &gt;Build.txt"
 cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; FOR /F %%i IN (Build.txt) DO echo #define BUILD_NUMBER %%i &gt;BuildNo.rc"
 cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; del Build.txt"
-cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; type BuildNo.rc"</Command>
+cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; type BuildNo.rc"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del BuildNo.rc &gt; nul 2&gt;&amp;1"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; echo echo^|set /p="#define " ^&gt; BuildNo.rc &gt; build.bat"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; echo type "$(ProjectDir)External\d3d8to9\res\d3d8to9.rc" ^| find "FILEVERSION" ^&gt;^&gt; BuildNo.rc &gt;&gt; build.bat"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; echo set /p build=^&lt;BuildNo.rc &gt;&gt; build.bat"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; echo set modified=%%build:,=.%% &gt;&gt; build.bat"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; echo echo %%modified%% ^&gt; BuildNo.rc &gt;&gt; build.bat"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; call build.bat"
+cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

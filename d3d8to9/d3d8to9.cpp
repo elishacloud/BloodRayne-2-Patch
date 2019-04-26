@@ -18,6 +18,11 @@
 #include "External\d3d8to9\source\d3dx9.hpp"
 #include "d3d8to9.h"
 #include "Logging\Logging.h"
+#include "BuildNo.rc"
+
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#define APP_VERSION TOSTRING(FILEVERSION)
 
 PFN_D3DXAssembleShader D3DXAssembleShader = nullptr;
 PFN_D3DXDisassembleShader D3DXDisassembleShader = nullptr;
@@ -35,7 +40,9 @@ Direct3D8 *WINAPI Direct3DCreate8to9(UINT SDKVersion)
 		return nullptr;
 	}
 
-	Logging::Log() << "Redirecting 'Direct3DCreate8' ---> Passing on to 'Direct3DCreate9'";
+	LOG_ONCE("Starting D3d8to9 v" << APP_VERSION);
+
+	Logging::Log() << "Redirecting 'Direct3DCreate8' to --> 'Direct3DCreate9' (" << SDKVersion << ")";
 
 	// Load D3DX
 	if (!D3DXAssembleShader || !D3DXDisassembleShader || !D3DXLoadSurfaceFromSurface)
