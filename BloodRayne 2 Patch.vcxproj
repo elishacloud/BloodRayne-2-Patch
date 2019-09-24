@@ -65,12 +65,16 @@ copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &g
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>D3D8TO9NOLOG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>d3d8.def</ModuleDefinitionFile>
       <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
       <Command>IF NOT EXIST "$(TargetDir)Patch" mkdir "$(TargetDir)Patch" &gt;nul
@@ -112,6 +116,7 @@ cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
     <ClCompile Include="External\d3d8to9\source\d3d8to9_vertex_buffer.cpp" />
     <ClCompile Include="External\d3d8to9\source\d3d8to9_volume.cpp" />
     <ClCompile Include="External\d3d8to9\source\d3d8types.cpp" />
+    <ClCompile Include="External\d3d8to9\source\interface_query.cpp" />
     <ClCompile Include="External\d3d8to9\source\lookup_table.cpp" />
     <ClCompile Include="External\Hooking\Hook.cpp" />
     <ClCompile Include="External\Hooking\HotPatch.cpp" />
