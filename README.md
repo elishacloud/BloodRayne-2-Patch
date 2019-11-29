@@ -26,6 +26,10 @@ Delete the following files from the 'BloodRayne 2' folder:
 * d3d8patch.dll
 * readme.html
 
+### Troubleshooting
+
+If you run into issues using the BloodRayne 2 patch, try running the `br2fsaaConfig.exe` program and then selecting the 'Auto Config' option. This should guide you through properly configuring the patch.
+
 ### Donations
 
 All my work here is free and can be freely used.  For more details on how you can use this module see the [license](#license) section below.  However, if you would like to donate to me then check out my [donations page](https://PayPal.me/elishacloud).  All donations are for work already completed!  Please don't donate for future work or to try and increase my development speed.  Thanks!
