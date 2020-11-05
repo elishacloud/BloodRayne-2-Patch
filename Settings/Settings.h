@@ -5,7 +5,7 @@
 #define VISIT_BOOL_SETTINGS(visit) \
 	visit(d3d8to9, true) \
 	visit(EnableFSSAPatch, true) \
-	visit(FullscreenWndMode, true)
+	visit(FullscreenWndMode, false)
 
 #define VISIT_STR_SETTINGS(visit) \
 	visit(D3d8WrapperPath, "")
