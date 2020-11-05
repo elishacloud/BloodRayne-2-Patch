@@ -7,8 +7,9 @@ This is a project that fixes the BloodRayne 2 'BR2 FSAA Patch 1.666' patch on Wi
 ### Installation
 
 1. Download the latest release from the repository's [Releases](https://github.com/elishacloud/BloodRayne-2-Patch/releases) page and unzip all files it to the 'BloodRayne 2' folder, where the br2.exe file exists.
-2. (optional) Run the 'br2fsaaConfig.exe' config tool and configure the settings you desire.
-3. Make sure all compatibility settings are disabled.
+2. Run the 'br2fsaaConfig.exe' config tool and configure the settings you desire.  It is recommended to run "Auto Config" option to configure the patch correctly.
+3. (optional) Modify the `d3d8.ini` file settings as you desire.
+4. Make sure all compatibility settings are disabled.
 
 ![Compatibility Settings](https://raw.githubusercontent.com/elishacloud/wiki-attachments/master/BloodRayne-2-Patch/Compatibility.png)
 
@@ -22,6 +23,7 @@ Delete the following files from the 'BloodRayne 2' folder:
 * br2perlin.exe
 * cudart32_32_16.dll
 * d3d8.dll
+* d3d8.ini
 * d3d8.log
 * d3d8patch.dll
 * readme.html
@@ -46,7 +48,9 @@ This software is provided 'as-is', without any express or implied warranty. In n
 
 This project uses code from several other projects. Below is a list of locations that source code was taken from:
 
+* [Aqrit's ddwrapper](http://bitpatch.com/ddwrapper.html): Includes code to read the ini config file.
 * [d3d8to9](https://github.com/crosire/d3d8to9): Includes the full Direct3D 8 to Direct3D 9 code.
+* [DxWrapper](https://github.com/elishacloud/dxwrapper): Includes code to create wrapper dlls and resets the display adapter.
 * [DxWnd](https://sourceforge.net/projects/dxwnd/): Includes code from DxWnd for API hooking.
 * [rohitab.com](http://www.rohitab.com/discuss/topic/40594-parsing-pe-export-table/): Code in GetProcAddress function taken from source code found on rohitab.com
 
