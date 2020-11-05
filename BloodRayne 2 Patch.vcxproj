@@ -57,7 +57,8 @@ copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\br2hd.ini" "$(TargetDir)Patch\" &gt
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\br2perlin.exe" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\cudart32_32_16.dll" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\readme.html" "$(TargetDir)Patch\" &gt;nul
-copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &gt;nul</Command>
+copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &gt;nul
+copy /Y "$(ProjectDir)Settings\Settings.ini" "$(TargetDir)$(TargetName).ini" &gt;nul</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,7 +87,8 @@ copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\br2hd.ini" "$(TargetDir)Patch\" &gt
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\br2perlin.exe" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\cudart32_32_16.dll" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\readme.html" "$(TargetDir)Patch\" &gt;nul
-copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &gt;nul</Command>
+copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &gt;nul
+copy /Y "$(ProjectDir)Settings\Settings.ini" "$(TargetDir)$(TargetName).ini" &gt;nul</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cmd /c "@echo off &amp;&amp; cd /D ""$(ProjectDir)"" &amp;&amp; if not exist BuildNo.rc echo #define BUILD_NUMBER 0 &gt;BuildNo.rc"
@@ -122,6 +124,7 @@ cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
     <ClCompile Include="External\Hooking\HotPatch.cpp" />
     <ClCompile Include="External\Hooking\IATPatch.cpp" />
     <ClCompile Include="External\Logging\Logging.cpp" />
+    <ClCompile Include="Settings\Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d8to9\d3d8to9.h" />
@@ -133,9 +136,11 @@ cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
     <ClInclude Include="External\Hooking\Hook.h" />
     <ClInclude Include="External\Logging\Logging.h" />
     <ClInclude Include="Logging\Logging.h" />
+    <ClInclude Include="Settings\Settings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d8.def" />
+    <None Include="Settings\Settings.ini" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BuildNo.rc" />
