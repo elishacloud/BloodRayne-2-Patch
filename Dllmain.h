@@ -15,7 +15,7 @@
 #define APP_REVISION			0
 #define APP_COMPANYNAME			"Sadrate Presents"
 #define APP_DESCRPTION			"A project designed to fix the BloodRayne 2 'BR2 FSAA Patch 1.666' patch on Windows 8.1 and Windows 10."
-#define APP_COPYRIGHT			"Copyright (C) 2019 Elisha Riedlinger"
+#define APP_COPYRIGHT			"Copyright (C) 2020 Elisha Riedlinger"
 #define APP_ORIGINALVERSION		"d3d8.dll"
 #define APP_INTERNALNAME		"BloodRayne-2-Patch"
 
