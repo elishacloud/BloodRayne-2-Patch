@@ -58,6 +58,7 @@ copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\br2perlin.exe" "$(TargetDir)Patch\"
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\cudart32_32_16.dll" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\readme.html" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &gt;nul
+copy /Y "$(ProjectDir)Settings\Settings.ini" "$(TargetDir)Patch\$(TargetName).ini" &gt;nul
 copy /Y "$(ProjectDir)Settings\Settings.ini" "$(TargetDir)$(TargetName).ini" &gt;nul</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -88,6 +89,7 @@ copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\br2perlin.exe" "$(TargetDir)Patch\"
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\cudart32_32_16.dll" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(SolutionDir)\BR2.FSAA.Patch.1.666\readme.html" "$(TargetDir)Patch\" &gt;nul
 copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Patch\$(TargetName).dll" &gt;nul
+copy /Y "$(ProjectDir)Settings\Settings.ini" "$(TargetDir)Patch\$(TargetName).ini" &gt;nul
 copy /Y "$(ProjectDir)Settings\Settings.ini" "$(TargetDir)$(TargetName).ini" &gt;nul</Command>
     </PostBuildEvent>
     <PreBuildEvent>
