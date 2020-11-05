@@ -108,6 +108,18 @@ cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="d3d8to9\d3d8to9.cpp" />
+    <ClCompile Include="d3d8\d3d8.cpp" />
+    <ClCompile Include="d3d8\IDirect3D8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DCubeTexture8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DDevice8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DIndexBuffer8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DSurface8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DSwapChain8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DTexture8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DVertexBuffer8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DVolume8.cpp" />
+    <ClCompile Include="d3d8\IDirect3DVolumeTexture8.cpp" />
+    <ClCompile Include="d3d8\InterfaceQuery.cpp" />
     <ClCompile Include="Dllmain.cpp" />
     <ClCompile Include="External\d3d8to9\source\d3d8to9_base.cpp" />
     <ClCompile Include="External\d3d8to9\source\d3d8to9_device.cpp" />
@@ -128,6 +140,18 @@ cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d8to9\d3d8to9.h" />
+    <ClInclude Include="d3d8\AddressLookupTable.h" />
+    <ClInclude Include="d3d8\d3d8.h" />
+    <ClInclude Include="d3d8\IDirect3D8.h" />
+    <ClInclude Include="d3d8\IDirect3DCubeTexture8.h" />
+    <ClInclude Include="d3d8\IDirect3DDevice8.h" />
+    <ClInclude Include="d3d8\IDirect3DIndexBuffer8.h" />
+    <ClInclude Include="d3d8\IDirect3DSurface8.h" />
+    <ClInclude Include="d3d8\IDirect3DSwapChain8.h" />
+    <ClInclude Include="d3d8\IDirect3DTexture8.h" />
+    <ClInclude Include="d3d8\IDirect3DVertexBuffer8.h" />
+    <ClInclude Include="d3d8\IDirect3DVolume8.h" />
+    <ClInclude Include="d3d8\IDirect3DVolumeTexture8.h" />
     <ClInclude Include="Dllmain.h" />
     <ClInclude Include="External\d3d8to9\source\d3d8to9.hpp" />
     <ClInclude Include="External\d3d8to9\source\d3d8types.hpp" />

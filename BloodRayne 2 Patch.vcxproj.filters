@@ -53,6 +53,42 @@
     <ClCompile Include="Settings\Settings.cpp">
       <Filter>Settings</Filter>
     </ClCompile>
+    <ClCompile Include="d3d8\d3d8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3D8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DCubeTexture8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DDevice8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DIndexBuffer8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DSurface8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DSwapChain8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DTexture8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DVertexBuffer8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DVolume8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\IDirect3DVolumeTexture8.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d8\InterfaceQuery.cpp">
+      <Filter>d3d8</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dllmain.h" />
@@ -83,6 +119,42 @@
     <ClInclude Include="Settings\Settings.h">
       <Filter>Settings</Filter>
     </ClInclude>
+    <ClInclude Include="d3d8\AddressLookupTable.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\d3d8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3D8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DCubeTexture8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DDevice8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DIndexBuffer8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DSurface8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DSwapChain8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DTexture8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DVertexBuffer8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DVolume8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d8\IDirect3DVolumeTexture8.h">
+      <Filter>d3d8</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="d3d8to9">
@@ -105,6 +177,9 @@
     </Filter>
     <Filter Include="Settings">
       <UniqueIdentifier>{b8fca170-927c-4d7e-8c9a-87470dade899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="d3d8">
+      <UniqueIdentifier>{848c5726-ab2f-46a5-9f94-62bd772b10ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

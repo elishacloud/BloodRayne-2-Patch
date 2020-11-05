@@ -23,12 +23,15 @@
 
 std::ofstream LOG;
 
-typedef Direct3D8*(WINAPI *Direct3DCreate8Proc)(UINT SDKVersion);
-Direct3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion);
+struct IDirect3D8;
+typedef IDirect3D8*(WINAPI *Direct3DCreate8Proc)(UINT SDKVersion);
+IDirect3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion);
+IDirect3D8 *WINAPI Direct3DCreate8Wrapper(UINT SDKVersion);
 
 HMODULE RealD3d8_dll = nullptr;
 HMODULE m_hModule = nullptr;
 HMODULE Patch_dll = nullptr;
+HMODULE wrapper_dll = nullptr;
 Direct3DCreate8Proc RealDirect3DCreate8_dll = nullptr;
 Direct3DCreate8Proc Direct3DCreate8_dll = (Direct3DCreate8Proc)*_Direct3DCreate8;
 
@@ -38,33 +41,96 @@ extern "C" __declspec(naked) void __stdcall Direct3DCreate8()
 	__asm jmp Direct3DCreate8_dll
 }
 
-Direct3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion)
+IDirect3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion)
 {
-	if (d3d8to9)
+	static bool RunOnce = true;
+	if (RunOnce)
 	{
-		return Direct3DCreate8to9(SDKVersion);
-	}
-	else
-	{
-		if (!D3d8WrapperPath.empty())
+		RunOnce = false;
+
+		// Init vars
+		wchar_t path[MAX_PATH];
+
+		// Game -> Patch
+		if (EnableFSSAPatch)
 		{
-			static HMODULE wrapper_dll = LoadLibraryA(D3d8WrapperPath.c_str());
-			if (wrapper_dll && wrapper_dll != RealD3d8_dll && wrapper_dll != m_hModule && wrapper_dll != Patch_dll)
+			// Load d3d8patch.dll from exe folder
+			if (GetModuleFileName(nullptr, path, sizeof(path)) && wcsrchr(path, '\\'))
 			{
-				static Direct3DCreate8Proc WrapperDirect3DCreate8_dll = (Direct3DCreate8Proc)GetProcAddress(wrapper_dll, "Direct3DCreate8");
-				if (WrapperDirect3DCreate8_dll)
+				wcscpy_s(wcsrchr(path, '\\'), MAX_PATH - wcslen(path), L"\\d3d8patch.dll");
+				Patch_dll = LoadLibrary(path);
+			}
+
+			// Direct3DCreate8 -> Patch
+			if (Patch_dll)
+			{
+				Logging::Log() << "Hooking 'd3d8patch.dll' APIs...";
+				Direct3DCreate8_dll = (Direct3DCreate8Proc)Hook::GetProcAddress(Patch_dll, "Direct3DCreate8");
+			}
+			else
+			{
+				Logging::Log() << "Error: Could not load 'd3d8patch.dll' patch file!";
+			}
+		}
+
+		// Patch -> Internal D3d8
+		{
+			// Load d3d8.dll from System32 folder
+			if (GetSystemDirectory(path, MAX_PATH))
+			{
+				wcscat_s(path, MAX_PATH, L"\\d3d8.dll");
+				RealD3d8_dll = LoadLibrary(path);
+			}
+
+			// Real_D3d8 -> Direct3DCreate8to9
+			if (RealD3d8_dll)
+			{
+				if (EnableFSSAPatch)
 				{
-					LOG_ONCE("Loaded '" << D3d8WrapperPath.c_str() << "'");
-					return WrapperDirect3DCreate8_dll(SDKVersion);
+					Logging::Log() << "Hooking System32 d3d8.dll APIs...";
+					RealDirect3DCreate8_dll = (Direct3DCreate8Proc)Hook::HotPatch(Hook::GetProcAddress(RealD3d8_dll, "Direct3DCreate8"), "Direct3DCreate8", _Direct3DCreate8);
 				}
 				else
 				{
+					Logging::Log() << "Loading System32 d3d8.dll...";
+					RealDirect3DCreate8_dll = (Direct3DCreate8Proc)GetProcAddress(RealD3d8_dll, "Direct3DCreate8");
+				}
+			}
+			else
+			{
+				Logging::Log() << "Error: Could not load System32 'd3d8.dll' file!";
+			}
+		}
+
+		// Get real d3d8 dll function
+		{
+			if (d3d8to9)
+			{
+				RealDirect3DCreate8_dll = (Direct3DCreate8Proc)*Direct3DCreate8to9;
+			}
+			else
+			{
+				while (!D3d8WrapperPath.empty())
+				{
+					wrapper_dll = LoadLibraryA(D3d8WrapperPath.c_str());
+					if (wrapper_dll && wrapper_dll != RealD3d8_dll && wrapper_dll != m_hModule && wrapper_dll != Patch_dll)
+					{
+						Direct3DCreate8Proc WrapperDirect3DCreate8_dll = (Direct3DCreate8Proc)GetProcAddress(wrapper_dll, "Direct3DCreate8");
+						if (WrapperDirect3DCreate8_dll)
+						{
+							LOG_ONCE("Loaded '" << D3d8WrapperPath.c_str() << "'");
+							RealDirect3DCreate8_dll = (Direct3DCreate8Proc)*WrapperDirect3DCreate8_dll;
+							break;
+						}
+					}
 					Logging::Log() << "Error: Could not load '" << D3d8WrapperPath.c_str() << "' file!";
+					break;
 				}
 			}
 		}
-		return RealDirect3DCreate8_dll(SDKVersion);
 	}
+
+	return Direct3DCreate8Wrapper(SDKVersion);
 }
 
 // Dll main function
@@ -122,60 +188,6 @@ bool APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 		Logging::LogProcessNameAndPID();
 		Logging::LogGameType();
 		Logging::LogCompatLayer();
-
-		// Init vars
-		wchar_t path[MAX_PATH];
-
-		// Game -> Patch
-		if (EnableFSSAPatch)
-		{
-			// Load d3d8patch.dll from exe folder
-			if (GetModuleFileName(nullptr, path, sizeof(path)) && wcsrchr(path, '\\'))
-			{
-				wcscpy_s(wcsrchr(path, '\\'), MAX_PATH - wcslen(path), L"\\d3d8patch.dll");
-				Patch_dll = LoadLibrary(path);
-			}
-
-			// Direct3DCreate8 -> Patch
-			if (Patch_dll)
-			{
-				Logging::Log() << "Hooking 'd3d8patch.dll' APIs...";
-				Direct3DCreate8_dll = (Direct3DCreate8Proc)Hook::GetProcAddress(Patch_dll, "Direct3DCreate8");
-			}
-			else
-			{
-				Logging::Log() << "Error: Could not load 'd3d8patch.dll' patch file!";
-			}
-		}
-
-		// Patch -> Internal D3d8
-		{
-			// Load d3d8.dll from System32 folder
-			if (GetSystemDirectory(path, MAX_PATH))
-			{
-				wcscat_s(path, MAX_PATH, L"\\d3d8.dll");
-				RealD3d8_dll = LoadLibrary(path);
-			}
-
-			// Real_D3d8 -> Direct3DCreate8to9
-			if (RealD3d8_dll)
-			{
-				if (EnableFSSAPatch)
-				{
-					Logging::Log() << "Hooking System32 d3d8.dll APIs...";
-					RealDirect3DCreate8_dll = (Direct3DCreate8Proc)Hook::HotPatch(Hook::GetProcAddress(RealD3d8_dll, "Direct3DCreate8"), "Direct3DCreate8", _Direct3DCreate8);
-				}
-				else
-				{
-					Logging::Log() << "Loading System32 d3d8.dll...";
-					RealDirect3DCreate8_dll = (Direct3DCreate8Proc)GetProcAddress(RealD3d8_dll, "Direct3DCreate8");
-				}
-			}
-			else
-			{
-				Logging::Log() << "Error: Could not load System32 'd3d8.dll' file!";
-			}
-		}
 	}
 	break;
 	case DLL_THREAD_ATTACH:
@@ -191,6 +203,10 @@ bool APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 		if (RealD3d8_dll)
 		{
 			FreeLibrary(RealD3d8_dll);
+		}
+		if (wrapper_dll)
+		{
+			FreeLibrary(wrapper_dll);
 		}
 		break;
 	}
