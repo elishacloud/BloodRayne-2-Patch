@@ -19,7 +19,7 @@
 typedef IDirect3D8*(WINAPI *Direct3DCreate8Proc)(UINT SDKVersion);
 extern Direct3DCreate8Proc RealDirect3DCreate8_dll;
 
-IDirect3D8 *WINAPI Direct3DCreate8Wrapper(UINT SDKVersion)
+IDirect3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion)
 {
 	Logging::Log() << "Redirecting 'Direct3DCreate8' ...";
 

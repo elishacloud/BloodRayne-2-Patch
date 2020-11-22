@@ -26,22 +26,15 @@ std::ofstream LOG;
 struct IDirect3D8;
 typedef IDirect3D8*(WINAPI *Direct3DCreate8Proc)(UINT SDKVersion);
 IDirect3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion);
-IDirect3D8 *WINAPI Direct3DCreate8Wrapper(UINT SDKVersion);
 
-HMODULE RealD3d8_dll = nullptr;
 HMODULE m_hModule = nullptr;
 HMODULE Patch_dll = nullptr;
+HMODULE RealD3d8_dll = nullptr;
 HMODULE wrapper_dll = nullptr;
 Direct3DCreate8Proc RealDirect3DCreate8_dll = nullptr;
 Direct3DCreate8Proc Direct3DCreate8_dll = (Direct3DCreate8Proc)*_Direct3DCreate8;
 
-extern "C" __declspec(naked) void __stdcall Direct3DCreate8()
-{
-	__asm mov edi, edi
-	__asm jmp Direct3DCreate8_dll
-}
-
-IDirect3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion)
+IDirect3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
 {
 	static bool RunOnce = true;
 	if (RunOnce)
@@ -64,8 +57,8 @@ IDirect3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion)
 			// Direct3DCreate8 -> Patch
 			if (Patch_dll)
 			{
-				Logging::Log() << "Hooking 'd3d8patch.dll' APIs...";
-				Direct3DCreate8_dll = (Direct3DCreate8Proc)Hook::GetProcAddress(Patch_dll, "Direct3DCreate8");
+				Logging::Log() << "Loading 'd3d8patch.dll' APIs...";
+				Direct3DCreate8_dll = (Direct3DCreate8Proc)GetProcAddress(Patch_dll, "Direct3DCreate8");
 			}
 			else
 			{
@@ -130,7 +123,7 @@ IDirect3D8 *WINAPI _Direct3DCreate8(UINT SDKVersion)
 		}
 	}
 
-	return Direct3DCreate8Wrapper(SDKVersion);
+	return Direct3DCreate8_dll(SDKVersion);
 }
 
 // Dll main function
