@@ -188,7 +188,6 @@ bool APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 	case DLL_THREAD_DETACH:
 		break;
 	case DLL_PROCESS_DETACH:
-		Hook::UnhookAll();
 		if (Patch_dll)
 		{
 			FreeLibrary(Patch_dll);
