@@ -8,3 +8,6 @@
 	path = External/d3d8to9
 	url = https://github.com/crosire/d3d8to9
 	branch = main
+[submodule "External/MemoryModule"]
+	path = External/MemoryModule
+	url = https://github.com/fancycode/MemoryModule

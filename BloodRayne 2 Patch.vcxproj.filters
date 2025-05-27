@@ -86,6 +86,12 @@
     <ClCompile Include="d3d8\InterfaceQuery.cpp">
       <Filter>d3d8</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\d3dx9.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MemoryModule\MemoryModule.c">
+      <Filter>External\MemoryModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dllmain.h" />
@@ -152,6 +158,12 @@
     <ClInclude Include="External\d3d8to9\source\interface_query.hpp">
       <Filter>External\d3d8to9</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\d3dx9.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MemoryModule\MemoryModule.h">
+      <Filter>External\MemoryModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="d3d8to9">
@@ -177,6 +189,12 @@
     </Filter>
     <Filter Include="d3d8">
       <UniqueIdentifier>{848c5726-ab2f-46a5-9f94-62bd772b10ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{76c34379-bb7a-46f3-8c4b-3bc2676da797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MemoryModule">
+      <UniqueIdentifier>{336e7e1c-4bdf-482f-9977-80826a6bdcee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

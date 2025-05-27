@@ -140,6 +140,8 @@ cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
     <ClCompile Include="External\Hooking\HotPatch.cpp" />
     <ClCompile Include="External\Hooking\IATPatch.cpp" />
     <ClCompile Include="External\Logging\Logging.cpp" />
+    <ClCompile Include="External\MemoryModule\MemoryModule.c" />
+    <ClCompile Include="Libraries\d3dx9.cpp" />
     <ClCompile Include="Settings\Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +165,8 @@ cmd /q /c "cd /D ""$(ProjectDir)d3d8to9\"" &amp;&amp; del build.bat"</Command>
     <ClInclude Include="External\d3d8to9\source\interface_query.hpp" />
     <ClInclude Include="External\Hooking\Hook.h" />
     <ClInclude Include="External\Logging\Logging.h" />
+    <ClInclude Include="External\MemoryModule\MemoryModule.h" />
+    <ClInclude Include="Libraries\d3dx9.h" />
     <ClInclude Include="Logging\Logging.h" />
     <ClInclude Include="Settings\Settings.h" />
   </ItemGroup>
